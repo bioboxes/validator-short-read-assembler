@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o xtrace
+
+TAG=image-$(date +%s)
+TMP=$(mktemp -d)
+DOCKER_FILE=${TMP}/Dockerfile
+CACHE="vendor/docker/image.tar"
+
+head -n 20 Dockerfile > ${DOCKER_FILE}
+
+if [[ -e ${CACHE} ]]; then
+  docker load -i ${CACHE}
+else
+  docker build --tag=${TAG} ${TMP}
+  mkdir -p $(dirname ${CACHE})
+  docker save ${TAG} > ${CACHE}
+fi
