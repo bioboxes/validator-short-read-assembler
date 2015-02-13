@@ -9,7 +9,7 @@ TMP=$(mktemp -d)
 DOCKER_FILE=${TMP}/Dockerfile
 CACHE="vendor/docker/image.tar"
 
-head -n 20 Dockerfile > ${DOCKER_FILE}
+head -n 14 Dockerfile > ${DOCKER_FILE}
 
 if [[ -e ${CACHE} ]]; then
   docker load -i ${CACHE}
