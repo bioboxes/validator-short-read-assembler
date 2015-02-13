@@ -1,4 +1,4 @@
 test:
   override:
-    ./script/build
+    - ./script/build
 
