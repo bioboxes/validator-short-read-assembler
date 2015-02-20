@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM ubuntu:14.04
 MAINTAINER Michael Barton, mail@michaelbarton.me.uk
 
 ENV PACKAGES ruby \
@@ -12,7 +12,7 @@ ENV PACKAGES ruby \
              iptables
 
 RUN apt-get update -y && apt-get install -y --no-install-recommends ${PACKAGES}
-RUN curl -sSL https://get.docker.com/ | sh
+RUN curl -sSL https://get.docker.com/ubuntu/ | sh
 
 # Setup ruby gems environment
 ENV GEM_HOME /root/.gem
