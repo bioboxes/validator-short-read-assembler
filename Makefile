@@ -14,6 +14,9 @@ mount/input/reads.fq.gz:
 	mkdir -p $(dir $@)
 	wget $(url) --quiet --output-document $@
 
-.image: Dockerfile $(shell find mount) mount/input/reads.fq.gz
+mount/input/listing.txt:
+	echo "/input/reads.fq.gz" > $@
+
+.image: Dockerfile $(shell find mount) mount/input/reads.fq.gz mount/input/listing.txt
 	docker build -t validator .
 	touch $@
