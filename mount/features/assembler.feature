@@ -11,5 +11,5 @@ Feature: Ensuring a short read assembler matches the specification
       --volume="$(pwd)/output:/output:rw" \
       ${IMAGE}
     """
-    Then the stderr should be empty
-     And the exit code should be 0
+    Then the stderr should not contain anything
+     And the exit status should be 0
