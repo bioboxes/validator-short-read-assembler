@@ -21,8 +21,10 @@ RUN gem install bundler
 
 # Install gems required for feature tests
 WORKDIR /root
-ADD mount /root
+ADD mount/Gemfile /root/Gemfile
+ADD mount/Gemfile.lock /root/Gemfile.lock
 RUN bundle install
+ADD mount /root
 
 # Setup Docker-in-Docker
 RUN mv wrapdocker /usr/local/bin/wrapdocker
