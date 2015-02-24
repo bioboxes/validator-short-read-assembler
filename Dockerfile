@@ -31,4 +31,4 @@ RUN mv wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
 
-CMD ["wrapdocker"]
+CMD /root/run
