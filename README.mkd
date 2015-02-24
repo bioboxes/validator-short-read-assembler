@@ -1,0 +1,16 @@
+### Getting started
+
+  * Setup up required project resources using `./script/bootstrap`
+
+### Project CLI
+
+  * `./script/bootstrap`: This will bootstrap all required resources to test
+    and use the image.
+
+  * `./script/build`: Refreshes the build of the image when the Dockerfile or
+    the mount directory has changed.
+
+### Project plumbing
+
+  * `./plumbing/cache_docker`: Caches the common parts of the image to
+    directory `vendor`. This is used to speed up CI on circleci.
