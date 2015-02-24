@@ -1,6 +1,6 @@
 url = 'https://www.dropbox.com/s/uxgn6cqngctqv74/reads.fq.gz?dl=1'
 
-bootstrap: .image mount/reads.fq.gz
+bootstrap: .image
 
 ssh: .image
 	docker run \
@@ -10,9 +10,10 @@ ssh: .image
 		validator \
 		bash
 
-mount/reads.fq.gz:
+mount/input/reads.fq.gz:
+	mkdir -p $(dir $@)
 	wget $(url) --quiet --output-document $@
 
-.image: Dockerfile $(shell find mount)
+.image: Dockerfile $(shell find mount) mount/input/reads.fq.gz
 	docker build -t validator .
 	touch $@
