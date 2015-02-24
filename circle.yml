@@ -2,7 +2,9 @@ machine:
   services:
     - docker
 
-test:
+dependencies:
+  cache_directories:
+    - "vendor/docker"
   override:
-    - ./script/build
-
+    - ./plumbing/cache_docker
+    - ./script/bootstrap
