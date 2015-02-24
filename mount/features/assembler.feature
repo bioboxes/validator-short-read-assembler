@@ -13,3 +13,5 @@ Feature: Ensuring a short read assembler matches the specification
     """
     Then the stderr should not contain anything
      And the exit status should be 0
+     And a file named "contigs.fa" should exist
+     And the file "contigs.fa" should match /^>.*\n[ATGCatgcNn\n]+/
