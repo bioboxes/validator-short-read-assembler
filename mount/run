@@ -3,4 +3,4 @@
 set -o errexit
 set -o nounset
 
-wrapdocker "bundle exec cucumber"
+IMAGE=$1 bundle exec cucumber
