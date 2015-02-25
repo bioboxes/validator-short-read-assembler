@@ -1,4 +1,4 @@
-Feature: Ensuring a short read assembler matches the specification
+Feature: Ensuring a short read assembler matches the bioboxes specification
 
   Scenario: Assembling a set of short reads
     When I run the bash command:
@@ -11,7 +11,6 @@ Feature: Ensuring a short read assembler matches the specification
       --volume="$(pwd)/output:/output:rw" \
       ${IMAGE}
     """
-    Then the stderr should not contain anything
-     And the exit status should be 0
-     And a file named "contigs.fa" should exist
-     And the file "contigs.fa" should match /^>.*\n[ATGCatgcNn\n]+/
+    Then the exit status should be 0
+     And a file named "output/contigs.fa" should exist
+     And the file "output/contigs.fa" should match /^>.*\n[ATGCatgcNn\n]+/
