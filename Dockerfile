@@ -32,3 +32,4 @@ RUN chmod +x /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
 
 ENTRYPOINT ["wrapdocker"]
+CMD ["/root/run"]

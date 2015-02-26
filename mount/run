@@ -1,6 +1,14 @@
 #!/bin/bash
 
 set -o errexit
-set -o nounset
 
-IMAGE=$1 bundle exec cucumber
+if [ -z "${IMAGE}" ]; then
+  printf "ERROR: The variable \$IMAGE should be set in the environment\n\n" 2>&1
+  exit 1
+fi
+
+if [ -d "/build" ]; then
+  docker build -t ${IMAGE} /build
+fi
+
+bundle exec cucumber
