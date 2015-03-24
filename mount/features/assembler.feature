@@ -95,7 +95,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    Error parsing: "/bbx/input/assembler.yaml".
    '0.8.0' does not match u'^0.9.\\d+$'
    """
-
   Scenario: An assembler.yaml with a missing arguments field.
     Given a file named "input/assembler.yaml" with:
     """
