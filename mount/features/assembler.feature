@@ -134,3 +134,25 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    Error parsing: "/bbx/input/assembler.yaml".
    Additional properties are not allowed ('unknown' was unexpected)
    """
+
+  Scenario: Run assembler with basic input
+    Given a file named "input/assembler.yaml" with:
+    """
+   ---
+   version: 0.9.0
+   arguments:
+    - fastq:
+      - id: "pe"
+        value: "/reads.fastq.gz"
+        type: paired
+    - fragment_size:
+      - id: "pe"
+        value: 123
+   """
+    When I run the bash command:
+    """
+   docker run --volume="$(pwd)/input:/bbx/input:ro" \
+              --volume="/root/output:/bbx/output:rw" \
+   ${IMAGE}  ${TASK}
+   """
+    Then a file named "/root/output/bbx/output.yaml" should exist
