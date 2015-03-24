@@ -3,7 +3,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
   Scenario: No assembler.yaml file is provided
     When I run the bash command:
     """
-	docker run	${IMAGE}
+	docker run	${IMAGE} ${TASK}
 	"""
     Then the exit status should be 1
     And the stderr should contain exactly:
@@ -15,7 +15,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Given an empty file named "input/assembler.yaml"
     When I run the bash command:
     """
-    docker run --volume="$(pwd)/input:/bbx/input" ${IMAGE}
+    docker run --volume="$(pwd)/input:/bbx/input" ${IMAGE} ${TASK}
     """
     Then the exit status should be 1
     And the stderr should contain exactly:
@@ -31,7 +31,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     When I run the bash command:
     """
    docker run \
-   --volume="$(pwd)/input:/bbx/input" ${IMAGE}
+   --volume="$(pwd)/input:/bbx/input" ${IMAGE} ${TASK}
    """
     Then the exit status should be 1
     And the stderr should contain exactly:
@@ -47,7 +47,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    """
     When I run the bash command:
     """
-   docker run --volume="$(pwd)/input:/bbx/input" ${IMAGE}
+   docker run --volume="$(pwd)/input:/bbx/input" ${IMAGE} ${TASK}
    """
     Then the exit status should be 1
     And the stderr should contain exactly:
@@ -67,7 +67,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    docker run \
    --env="TASK=default" \
    --volume="$(pwd)/input:/bbx/input:ro" \
-   ${IMAGE}
+   ${IMAGE} ${TASK}
    """
     Then the exit status should be 1
     And the stderr should contain exactly:
@@ -87,7 +87,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    docker run \
    --env="TASK=default" \
    --volume="$(pwd)/input:/bbx/input:ro" \
-   ${IMAGE}
+   ${IMAGE} ${TASK}
    """
     Then the exit status should be 1
     And the stderr should contain exactly:
@@ -106,7 +106,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    docker run \
    --env="TASK=default" \
    --volume="$(pwd)/input:/bbx/input" \
-   ${IMAGE}
+   ${IMAGE} ${TASK}
    """
     Then the exit status should be 1
     And the stderr should contain exactly:
@@ -127,7 +127,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    docker run \
    --env="TASK=default" \
    --volume="$(pwd)/input:/bbx/input:ro" \
-   ${IMAGE}
+   ${IMAGE} ${TASK}
    """
     Then the exit status should be 1
     And the stderr should contain exactly:
