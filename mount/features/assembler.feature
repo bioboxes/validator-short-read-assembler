@@ -36,14 +36,17 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
     And the stderr should contain exactly:
     """
-   Error parsing: "/bbx/input/assembler.yaml".
-   This file is not valid YAML.
+   Error parsing the YAML file: /bbx/input/assembler.yaml\n
    """
 
   Scenario: An assembler.yaml missing the version number.
     Given a file named "input/assembler.yaml" with:
     """
-   arguments: {}
+   arguments:
+     - fastq:
+       - id: "pe"
+         value: "/reads.fastq.gz"
+         type: paired
    """
     When I run the bash command:
     """
@@ -52,15 +55,19 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
     And the stderr should contain exactly:
     """
-   Error parsing: "/bbx/input/assembler.yaml".
-   u'version' is a required property
+   Required field 'version' is missing
+
    """
 
   Scenario: An assembler.yaml with a missing patch version number.
     Given a file named "input/assembler.yaml" with:
     """
    version: "0.9"
-   arguments: {}
+   arguments:
+     - fastq:
+       - id: "pe"
+         value: "/reads.fastq.gz"
+         type: paired
    """
     When I run the bash command:
     """
@@ -72,15 +79,19 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
     And the stderr should contain exactly:
     """
-   Error parsing: "/bbx/input/assembler.yaml".
-   '0.9' does not match u'^0.9.\\d+$'
+   Value '0.9' for field '<obj>.version' does not match regular expression '^0.9.\d+$'
+
    """
 
   Scenario: An assembler.yaml with a wrong version number.
     Given a file named "input/assembler.yaml" with:
     """
    version: "0.8.0"
-   arguments: {}
+   arguments:
+     - fastq:
+       - id: "pe"
+         value: "/reads.fastq.gz"
+         type: paired
    """
     When I run the bash command:
     """
@@ -92,8 +103,8 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
     And the stderr should contain exactly:
     """
-   Error parsing: "/bbx/input/assembler.yaml".
-   '0.8.0' does not match u'^0.9.\\d+$'
+   Value '0.8.0' for field '<obj>.version' does not match regular expression '^0.9.\d+$'
+
    """
   Scenario: An assembler.yaml with a missing arguments field.
     Given a file named "input/assembler.yaml" with:
@@ -110,15 +121,19 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
     And the stderr should contain exactly:
     """
-   Error parsing: "/bbx/input/assembler.yaml".
-   u'arguments' is a required property
+   Required field 'arguments' is missing
+
    """
 
   Scenario: An assembler.yaml with an additional unknown field
     Given a file named "input/assembler.yaml" with:
     """
    version: "0.9.0"
-   arguments: {}
+   arguments:
+     - fastq:
+       - id: "pe"
+         value: "/reads.fastq.gz"
+         type: paired
    unknown: {}
    """
     When I run the bash command:
@@ -129,10 +144,9 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    ${IMAGE} ${TASK}
    """
     Then the exit status should be 1
-    And the stderr should contain exactly:
+    And the stderr should contain:
     """
-   Error parsing: "/bbx/input/assembler.yaml".
-   Additional properties are not allowed ('unknown' was unexpected)
+  contains additional property 'unknown' not defined by 'properties' or 'patternProperties'
    """
 
   Scenario: Run assembler with basic input
@@ -153,6 +167,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     """
    docker run --volume="$(pwd)/input:/bbx/input:ro" \
               --volume="/root/output:/bbx/output:rw" \
-   ${IMAGE}  ${TASK}
+   ${IMAGE} ${TASK}
    """
     Then a file named "/root/output/bbx/output.yaml" should exist
