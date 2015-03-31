@@ -167,6 +167,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     """
    docker run --volume="$(pwd)/input:/bbx/input:ro" \
               --volume="/root/output:/bbx/output:rw" \
-   ${IMAGE} ${TASK}
+   ${IMAGE} ${TASK} ; python /root/bin/output_validator.py -i /root/output/bbx/output.yaml -s /root/schema/output.yaml -o /root/output
    """
-    Then a file named "/root/output/bbx/output.yaml" should exist
+    Then the exit status should be 0

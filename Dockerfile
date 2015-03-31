@@ -13,6 +13,7 @@ ENV PACKAGES ruby \
 
 RUN apt-get update -y && apt-get install -y --no-install-recommends ${PACKAGES}
 RUN curl -sSL https://get.docker.com/ubuntu/ | sh
+RUN apt-get install wget
 
 # Setup ruby gems environment
 ENV GEM_HOME /root/.gem
@@ -30,6 +31,13 @@ ADD mount /root
 RUN mv wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
+
+# Setup Python
+RUN mkdir /opt/bin
+RUN apt-get install -y python
+RUN apt-get install -y python-pip
+RUN pip install PyYAML
+RUN pip install validictory
 
 ENTRYPOINT ["wrapdocker"]
 CMD ["/root/run"]
