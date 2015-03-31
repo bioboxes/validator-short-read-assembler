@@ -1,6 +1,6 @@
 Feature: Ensuring a short read assembler matches the bioboxes specification
   
-  Scenario: No assembler.yaml file is provided
+  Scenario: No biobox.yaml file is provided
     When I run the bash command:
     """
 	docker run	${IMAGE} ${TASK}
@@ -8,11 +8,11 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
     And the stderr should contain exactly:
     """
-    No input data found at: "/bbx/input/assembler.yaml".
+    No input data found at: "/bbx/input/biobox.yaml".
     """
 
-  Scenario: An empty assembler.yaml file
-    Given an empty file named "input/assembler.yaml"
+  Scenario: An empty biobox.yaml file
+    Given an empty file named "input/biobox.yaml"
     When I run the bash command:
     """
     docker run --volume="$(pwd)/input:/bbx/input" ${IMAGE} ${TASK}
@@ -20,11 +20,11 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
     And the stderr should contain exactly:
     """
-    Unable to parse: "/bbx/input/assembler.yaml".
+    Unable to parse: "/bbx/input/biobox.yaml".
     """
 
-  Scenario: A garbled assembler.yaml file.
-    Given a file named "input/assembler.yaml" with:
+  Scenario: A garbled biobox.yaml file.
+    Given a file named "input/biobox.yaml" with:
     """
    'nonsense"/4*
    """
@@ -36,11 +36,11 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
     And the stderr should contain exactly:
     """
-   Error parsing the YAML file: /bbx/input/assembler.yaml\n
+   Error parsing the YAML file: /bbx/input/biobox.yaml\n
    """
 
-  Scenario: An assembler.yaml missing the version number.
-    Given a file named "input/assembler.yaml" with:
+  Scenario: An biobox.yaml missing the version number.
+    Given a file named "input/biobox.yaml" with:
     """
    arguments:
      - fastq:
@@ -59,8 +59,8 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
 
    """
 
-  Scenario: An assembler.yaml with a missing patch version number.
-    Given a file named "input/assembler.yaml" with:
+  Scenario: An biobox.yaml with a missing patch version number.
+    Given a file named "input/biobox.yaml" with:
     """
    version: "0.9"
    arguments:
@@ -83,8 +83,8 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
 
    """
 
-  Scenario: An assembler.yaml with a wrong version number.
-    Given a file named "input/assembler.yaml" with:
+  Scenario: An biobox.yaml with a wrong version number.
+    Given a file named "input/biobox.yaml" with:
     """
    version: "0.8.0"
    arguments:
@@ -106,8 +106,8 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    Value '0.8.0' for field '<obj>.version' does not match regular expression '^0.9.\d+$'
 
    """
-  Scenario: An assembler.yaml with a missing arguments field.
-    Given a file named "input/assembler.yaml" with:
+  Scenario: An biobox.yaml with a missing arguments field.
+    Given a file named "input/biobox.yaml" with:
     """
    version: "0.9.0"
    """
@@ -125,8 +125,8 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
 
    """
 
-  Scenario: An assembler.yaml with an additional unknown field
-    Given a file named "input/assembler.yaml" with:
+  Scenario: An biobox.yaml with an additional unknown field
+    Given a file named "input/biobox.yaml" with:
     """
    version: "0.9.0"
    arguments:
@@ -150,7 +150,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    """
 
   Scenario: Run assembler with basic input
-    Given a file named "input/assembler.yaml" with:
+    Given a file named "input/biobox.yaml" with:
     """
    ---
    version: 0.9.0
