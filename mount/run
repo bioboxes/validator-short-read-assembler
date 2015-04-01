@@ -12,6 +12,18 @@ if [ -z "${TASK}" ]; then
   exit 1
 fi
 
+#ensure that docker runs
+if P=$(pgrep docker)
+then
+    echo "docker is running, PID is $P"
+else
+    sudo service docker start
+    until info=$(docker info 2> /dev/null)
+    do
+       sleep 1
+    done
+fi
+
 if [ -d "/build" ]; then
   docker build -t ${IMAGE} /build
 fi

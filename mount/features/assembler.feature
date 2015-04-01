@@ -150,22 +150,22 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
    """
 
   Scenario: Run assembler with basic input
-    Given a file named "input/biobox.yaml" with:
+    Given a file named "/root/input/biobox.yaml" with:
     """
    ---
    version: 0.9.0
    arguments:
     - fastq:
       - id: "pe"
-        value: "/reads.fastq.gz"
-        type: paired
+        value: "/reads.fq.gz"
+        type: single
     - fragment_size:
       - id: "pe"
         value: 123
    """
     When I run the bash command:
     """
-   docker run --volume="$(pwd)/input:/bbx/input:ro" \
+   docker run --volume="/root/input:/bbx/input:ro" \
               --volume="/root/output:/bbx/output:rw" \
    ${IMAGE} ${TASK} ; python /root/bin/output_validator.py -i /root/output/bbx/output.yaml -s /root/schema/output.yaml -o /root/output
    """
