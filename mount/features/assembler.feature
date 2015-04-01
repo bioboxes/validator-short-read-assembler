@@ -1,15 +1,4 @@
 Feature: Ensuring a short read assembler matches the bioboxes specification
-  
-  Scenario: No biobox.yaml file is provided
-    When I run the bash command:
-    """
-	docker run	${IMAGE} ${TASK}
-	"""
-    Then the exit status should be 1
-    And the stderr should contain exactly:
-    """
-    No input data found at: "/bbx/input/biobox.yaml".
-    """
 
   Scenario: An empty biobox.yaml file
     Given an empty file named "input/biobox.yaml"
@@ -20,7 +9,8 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
     And the stderr should contain exactly:
     """
-    Unable to parse: "/bbx/input/biobox.yaml".
+    Value None for field '<obj>' is not of type object
+
     """
 
   Scenario: A garbled biobox.yaml file.
