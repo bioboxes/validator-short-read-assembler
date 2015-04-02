@@ -13,6 +13,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
      And the stderr should contain exactly:
       """
       Value None for field '<obj>' is not of type object
+
       """
 
   Scenario: A garbled biobox.yaml file.
@@ -164,7 +165,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
       docker run \
         --volume="/root/input:/bbx/input:ro" \
         --volume="/root/output:/bbx/output:rw" \
-        ${IMAGE}
-        ${TASK} ; python /root/bin/output_validator.py -i /root/output/bbx/output.yaml -s /root/schema/output.yaml -o /root/output
+        ${IMAGE} ${TASK} ; python /root/bin/output_validator.py -i /root/output/bbx/output.yaml -s /root/schema/output.yaml -o /root/output
    """
     Then the exit status should be 0
