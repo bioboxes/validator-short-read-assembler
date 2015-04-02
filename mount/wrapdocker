@@ -1,13 +1,16 @@
 #!/bin/bash
 
+# Ensure that all nodes in /dev/mapper correspond to mapped devices currently loaded by the device-mapper kernel driver
+dmsetup mknodes
+
 # First, make sure that cgroups are mounted correctly.
 CGROUP=/sys/fs/cgroup
 : {LOG:=stdio}
 
-[ -d $CGROUP ] || 
+[ -d $CGROUP ] ||
 	mkdir $CGROUP
 
-mountpoint -q $CGROUP || 
+mountpoint -q $CGROUP ||
 	mount -n -t tmpfs -o uid=0,gid=0,mode=0755 cgroup $CGROUP || {
 		echo "Could not make a tmpfs mount. Did you use --privileged?"
 		exit 1
@@ -25,7 +28,7 @@ fi
 for SUBSYS in $(cut -d: -f2 /proc/1/cgroup)
 do
         [ -d $CGROUP/$SUBSYS ] || mkdir $CGROUP/$SUBSYS
-        mountpoint -q $CGROUP/$SUBSYS || 
+        mountpoint -q $CGROUP/$SUBSYS ||
                 mount -n -t cgroup -o $SUBSYS cgroup $CGROUP/$SUBSYS
 
         # The two following sections address a bug which manifests itself
@@ -87,7 +90,8 @@ rm -rf /var/run/docker.pid
 # otherwise, spawn a shell as well
 if [ "$PORT" ]
 then
-	exec docker -d -H 0.0.0.0:$PORT $DOCKER_DAEMON_ARGS
+	exec docker -d -H 0.0.0.0:$PORT -H unix://var/run/docker.sock \
+		$DOCKER_DAEMON_ARGS
 else
 	if [ "$LOG" == "file" ]
 	then
@@ -95,5 +99,15 @@ else
 	else
 		docker -d $DOCKER_DAEMON_ARGS &
 	fi
-	exec ${1-bash}
+	(( timeout = 60 + SECONDS ))
+	until docker info >/dev/null 2>&1
+	do
+		if (( SECONDS >= timeout )); then
+			echo 'Timed out trying to connect to internal docker host.' >&2
+			break
+		fi
+		sleep 1
+	done
+	[[ $1 ]] && exec "$@"
+	exec bash --login
 fi
