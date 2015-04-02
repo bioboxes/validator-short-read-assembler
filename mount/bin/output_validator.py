@@ -20,6 +20,7 @@ def validate_schema(input_yaml_path, schema_file):
     except ValueError as error:
         sys.stderr.write(error.message)
         return 1
+    sys.stdout.write("valid")
     return 0
 
 def existsFasta(input_yaml_path, outputDir):
