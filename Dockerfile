@@ -32,12 +32,5 @@ RUN mv wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
 
-# Setup Python
-RUN mkdir /opt/bin
-RUN apt-get install -y python
-RUN apt-get install -y python-pip
-RUN pip install PyYAML
-RUN pip install validictory
-
 ENTRYPOINT ["wrapdocker"]
 CMD ["/root/run"]

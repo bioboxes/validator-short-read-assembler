@@ -154,7 +154,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
       arguments:
         - fastq:
           - id: "pe"
-            value: "/reads.fq.gz"
+            value: "/bbx/input/reads.fq.gz"
             type: single
         - fragment_size:
           - id: "pe"
@@ -168,6 +168,4 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
         ${IMAGE} ${TASK}
       """
     Then the exit status should be 0
-     And a file named "/root/output/biobox.yaml" should exist.
-     And the output from "python /root/bin/output_validator.py -i /root/output/output.yaml -s /root/schema/output.yaml -o /root/output" should contain exactly "valid"
-
+     And a file named "/root/output/biobox.yaml" should exist
