@@ -1,3 +1,9 @@
+ci_test:
+
+tmp/validator.tar: .image
+	mkdir -p $(dir $@)
+	docker save validator > $@
+
 test: .image velvet
 	docker run \
 		--privileged \
