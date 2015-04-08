@@ -1,14 +1,10 @@
-url = 'https://www.dropbox.com/s/uxgn6cqngctqv74/reads.fq.gz?dl=1'
-
-test: .image soap
+test: .image velvet
 	docker run \
 		--privileged \
-		--env IMAGE=soap \
+		--env IMAGE=velvet \
 		--env TASK=default \
-		--volume $(shell pwd)/soap:/build \
+		--volume $(shell pwd)/velvet:/build \
 		validator
-
-bootstrap: .image soap
 
 ssh: .image
 	docker run \
@@ -18,15 +14,15 @@ ssh: .image
 		validator \
 		bash
 
-soap:
-	git clone git@github.com:bioboxes/soap.git $@
+bootstrap: velvet
+build:     .image
 
-mount/input/reads.fq.gz:
-	mkdir -p $(dir $@)
-	wget $(url) --quiet --output-document $@
-
-.image: Dockerfile $(shell find mount) mount/input/reads.fq.gz
+.image: Dockerfile $(shell find mount)
 	docker build -t validator .
 	touch $@
+
+
+velvet:
+	git clone git@github.com:bioboxes/velvet.git $@
 
 .PHONY: test ssh bootstrap
