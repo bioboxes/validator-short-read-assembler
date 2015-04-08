@@ -8,11 +8,11 @@ Gemfile:
 	mkdir -p $(dir $@)
 	docker export $(shell docker run --detach --entrypoint ls validator) \
 		| tar xvf - \
-		  --include='root' \
 		  --exclude='root/.gem' \
 		  --exclude='root/Gemfile.lock' \
 		  --exclude='root/Makefile' \
-		  --strip-components 1
+		  --strip-components 1 \
+		  root
 
 test: .image velvet
 	docker run \
