@@ -8,3 +8,8 @@ dependencies:
   override:
     - ./plumbing/cache_docker
     - ./script/bootstrap
+
+test:
+  override:
+    - ./script/build
+    - ./script/test

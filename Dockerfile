@@ -1,35 +1,12 @@
-FROM ubuntu:14.04
+FROM bioboxes/validator-base
 MAINTAINER Michael Barton, mail@michaelbarton.me.uk
 
-ENV PACKAGES ruby \
-             ruby-dev \
-             libffi-dev \
-             build-essential \
-             apt-transport-https \
-             ca-certificates \
-             curl \
-             lxc \
-             iptables
+ENV PACKAGES wget
+RUN apt-get install -y --no-install-recommends ${PACKAGES}
 
-RUN apt-get update -y && apt-get install -y --no-install-recommends ${PACKAGES}
-RUN curl -sSL https://get.docker.com/ubuntu/ | sh
-
-# Setup ruby gems environment
-ENV GEM_HOME /root/.gem
-ENV PATH ${PATH}:${GEM_HOME}/bin
-RUN gem install bundler
-
-# Install gems required for feature tests
+ADD mount/features /root/features/
+ADD mount/Makefile /root/Makefile
 WORKDIR /root
-ADD mount/Gemfile /root/Gemfile
-ADD mount/Gemfile.lock /root/Gemfile.lock
-RUN bundle install
-ADD mount /root
+RUN make bootstrap
 
-# Setup Docker-in-Docker
-RUN mv wrapdocker /usr/local/bin/wrapdocker
-RUN chmod +x /usr/local/bin/wrapdocker
-VOLUME /var/lib/docker
-
-ENTRYPOINT ["wrapdocker"]
 CMD ["/root/run"]

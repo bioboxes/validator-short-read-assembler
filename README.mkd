@@ -10,6 +10,9 @@
   * `./script/build`: Refreshes the build of the image when the Dockerfile or
     the mount directory has changed.
 
+##Run
+  * docker run --privileged -e IMAGE=IMAGENAME -e TASK=default -v /path/to/your/dockerfile/build/directory:/build  validator
+
 ### Project plumbing
 
   * `./plumbing/cache_docker`: Caches the common parts of the image to
