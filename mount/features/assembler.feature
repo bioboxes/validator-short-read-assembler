@@ -10,7 +10,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
       ${TASK}
       """
     Then the exit status should be 1
-     And the stderr should contain exactly:
+     And the stderr should contain:
       """
       Value None for field '<obj>' is not of type object
 
@@ -29,7 +29,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
       ${TASK}
       """
     Then the exit status should be 1
-     And the stderr should contain exactly:
+     And the stderr should contain:
       """
       Error parsing the YAML file: /bbx/input/biobox.yaml\n
       """
@@ -48,7 +48,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
       docker run --volume="$(pwd)/input:/bbx/input" ${IMAGE} ${TASK}
       """
     Then the exit status should be 1
-     And the stderr should contain exactly:
+     And the stderr should contain:
       """
       Required field 'version' is missing
 
@@ -73,7 +73,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
         ${TASK}
       """
     Then the exit status should be 1
-     And the stderr should contain exactly:
+     And the stderr should contain:
       """
       Value '0.9' for field '<obj>.version' does not match regular expression '^0.9.\d+$'
 
@@ -97,7 +97,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
         ${IMAGE} ${TASK}
       """
     Then the exit status should be 1
-     And the stderr should contain exactly:
+     And the stderr should contain:
       """
       Value '0.8.0' for field '<obj>.version' does not match regular expression '^0.9.\d+$'
 
@@ -116,7 +116,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
         ${IMAGE} ${TASK}
       """
     Then the exit status should be 1
-     And the stderr should contain exactly:
+     And the stderr should contain:
       """
       Required field 'arguments' is missing
 
