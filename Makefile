@@ -12,7 +12,7 @@ Gemfile:
 		  --exclude='root/.gem' \
 		  --exclude='root/Gemfile.lock' \
 		  --exclude='root/Makefile' \
-		  --strip-components 1 \
+		  --strip-components 1
 
 test: .image velvet
 	docker run \
