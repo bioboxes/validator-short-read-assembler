@@ -147,7 +147,10 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
       """
 
   Scenario: Run assembler with basic input
-    Given a file named "/root/input/biobox.yaml" with:
+    Given a directory named "output"
+      And a directory named "input"
+      And I successfully run `cp ../../input/reads.fq.gz input`
+      And a file named "input/biobox.yaml" with:
       """
       ---
       version: 0.9.0
@@ -163,9 +166,9 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     When I run the bash command:
       """
       docker run \
-        --volume="/root/input:/bbx/input:ro" \
-        --volume="/root/output:/bbx/output:rw" \
+        --volume="$(pwd)/input:/bbx/input:ro" \
+        --volume="$(pwd)/output:/bbx/output:rw" \
         ${IMAGE} ${TASK}
       """
     Then the exit status should be 0
-     And a file named "/root/output/biobox.yaml" should exist
+     And a file named "output/biobox.yaml" should exist
