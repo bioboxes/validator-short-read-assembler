@@ -7,6 +7,7 @@ tmp/validator.tar: .image
 test: .image velvet
 	docker run \
 		--privileged \
+		--rm \
 		--env IMAGE=velvet \
 		--env TASK=default \
 		--volume $(shell pwd)/velvet:/build \
@@ -17,6 +18,7 @@ ssh: .image
 		--privileged \
 		--interactive \
 		--tty \
+		--rm \
 		validator \
 		bash
 
