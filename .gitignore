@@ -1,3 +1,5 @@
 .image
+.base
 mount/input
-soap
+velvet
+tmp
