@@ -1,8 +1,18 @@
-ci_test:
+ci_test: Gemfile.lock
+	IMAGE=velvet TASK=default ./run
 
-tmp/validator.tar: .image
+Gemfile.lock: Gemfile
+	bundle install
+
+Gemfile:
 	mkdir -p $(dir $@)
-	docker save validator > $@
+	docker export $(shell docker run --detach --entrypoint ls validator) \
+		| tar xvf - \
+		  --include='root' \
+		  --exclude='root/.gem' \
+		  --exclude='root/Gemfile.lock' \
+		  --exclude='root/Makefile' \
+		  --strip-components 1 \
 
 test: .image velvet
 	docker run \
@@ -22,15 +32,19 @@ ssh: .image
 		validator \
 		bash
 
-bootstrap: velvet
 build:     .image
+bootstrap: velvet .base
 
 .image: Dockerfile $(shell find mount)
 	docker build -t validator .
 	touch $@
 
+.base: Dockerfile
+	docker pull $(head -n 1 $^ | cut -f 2 -d ' ')
+	touch $@
 
 velvet:
 	git clone git@github.com:bioboxes/velvet.git $@
+	docker build -t velvet $@
 
 .PHONY: test ssh bootstrap
