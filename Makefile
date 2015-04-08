@@ -1,5 +1,5 @@
 ci_test: Gemfile.lock
-	IMAGE=velvet TASK=default ./run
+	IMAGE=velvet TASK=default bundle exec cucumber
 
 Gemfile.lock: Gemfile
 	bundle install
