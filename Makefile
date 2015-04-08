@@ -40,7 +40,7 @@ bootstrap: velvet .base
 	touch $@
 
 .base: Dockerfile
-	docker pull $(head -n 1 $^ | cut -f 2 -d ' ')
+	docker pull $(shell head -n 1 $^ | cut -f 2 -d ' ')
 	touch $@
 
 velvet:
