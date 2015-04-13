@@ -172,5 +172,10 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
       """
     Then the exit status should be 0
      And a file named "output/bbx/biobox.yaml" should exist
-     And I run `validate-input --schema schema/output.yaml --input output/bbx/biobox.yaml`
+     And I run the bash command:
+      """
+      validate-input \
+        --schema $(pwd)/../../schema/output.yaml \
+        --input output/bbx/biobox.yaml
+      """
      And the exit status should be 0
