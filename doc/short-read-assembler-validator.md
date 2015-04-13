@@ -7,7 +7,7 @@ with the specification.
 
 ## Example usage
 
-``` bash 
+~~~ bash 
 # Fetch an example assembler biobox for testing
 git clone git@github.com:bioboxes/velvet.git
 
@@ -18,7 +18,7 @@ docker run \
   --env TASK=default \
   --volume $(pwd)/velvet:/build \
   bioboxes/validator-short-read-assembler
-```
+~~~
 
 This example illustrates using the assembler validator to test the `default`
 task of the `bioboxes/velvet` image we cloned. The name of the assembler image
