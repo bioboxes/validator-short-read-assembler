@@ -11,11 +11,18 @@ WORKDIR /root
 RUN make bootstrap
 
 #install 
-ENV BASE_URL https://s3-us-west-1.amazonaws.com/bioboxes-tools/validate-input
-ENV VERSION  validate-input-current.tar.xz
+ENV BASE_URL https://s3-us-west-1.amazonaws.com/bioboxes-tools/validate-biobox-file
+ENV VERSION  0.x.y
 ENV DEST     /root/bin
 RUN mkdir ${DEST}
-RUN wget --quiet --output-document - ${BASE_URL}/${VERSION} | tar xJf - --directory ${DEST}  --strip-components=1
+RUN wget \
+      --quiet \
+      --output-document -\
+      ${BASE_URL}/${VERSION}/validate-biobox-file.tar.xz \
+    | tar xJf - \
+      --directory ${DEST}  \
+      --strip-components=1
+
 ENV PATH ${PATH}:${DEST}
 
 CMD ["/root/run"]

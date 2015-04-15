@@ -174,7 +174,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
      And a file named "output/bbx/biobox.yaml" should exist
      And I run the bash command:
       """
-      validate-input \
+      validate-biobox-file \
         --schema $(pwd)/../../schema/output.yaml \
         --input output/bbx/biobox.yaml
       """
