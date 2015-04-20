@@ -20,9 +20,7 @@ build/schema/input.yaml: build
 	wget $(input) --quiet --output-document $@
 
 build/reads.fq.gz: build
-	wget $(reads) --quiet --output-document - |\
-		xz --decompress |\
-		gzip > $@
+	wget $(reads) --quiet --output-document $@
 
 build: $(shell find src)
 	cp -R src $@
