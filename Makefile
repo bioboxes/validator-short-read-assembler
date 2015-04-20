@@ -1,5 +1,6 @@
 image = validator-test-image
 dist  = dist/short-read-validator.tar.gz
+build = validate-short-read-assembler
 
 ##############################
 #
@@ -11,7 +12,7 @@ publish: ./plumbing/push-to-s3 VERSION $(dist)
 	bundle exec $^
 
 test: $(dist)
-	IMAGE=$(image) TASK=default ./build/validate
+	IMAGE=$(image) TASK=default ./$(build)/validate
 
 ##############################
 #
@@ -19,20 +20,20 @@ test: $(dist)
 #
 ##############################
 
-$(dist): build/reads.fq.gz build/schema/output.yaml build/schema/input.yaml
+$(dist): $(build)/reads.fq.gz $(build)/schema/output.yaml $(build)/schema/input.yaml
 	mkdir -p $(dir $@)
 	tar -czf $@ $(dir $<)
 
-build/schema/output.yaml: build
+$(build)/schema/output.yaml: $(build)
 	wget $(output) --quiet --output-document $@
 
-build/schema/input.yaml: build
+$(build)/schema/input.yaml: $(build)
 	wget $(input) --quiet --output-document $@
 
-build/reads.fq.gz: build
+$(build)/reads.fq.gz: $(build)
 	wget $(reads) --quiet --output-document $@
 
-build: $(shell find src)
+$(build): $(shell find src)
 	cp -R src $@
 	mkdir -p $@/schema
 	touch $@
@@ -50,10 +51,10 @@ Gemfile.lock: Gemfile
 
 image:
 	git clone git@github.com:bioboxes/velvet.git $@
-	docker build --tag $(image) $@
+	docker $(build) --tag $(image) $@
 
 clean:
-	rm -rf build dist
+	rm -rf $(build) dist
 
 ##############################
 #

@@ -1,4 +1,4 @@
-build
+validate-short-read-assembler*
 dist
 image
 Gemfile.lock
