@@ -51,7 +51,7 @@ Gemfile.lock: Gemfile
 
 image:
 	git clone git@github.com:bioboxes/velvet.git $@
-	docker $(build) --tag $(image) $@
+	docker build --tag $(image) $@
 
 clean:
 	rm -rf $(build) dist
