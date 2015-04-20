@@ -1,5 +1,5 @@
 test:
-	IMAGE=$(image) ./build/validate
+	IMAGE=$(image) TASK=default ./build/validate
 
 image = validator-test-image
 
