@@ -4,4 +4,9 @@ set -o xtrace
 
 SELFDIR=$(cd $(dirname $0) && pwd)
 
+# Build gem dependencies if not already
+if [ ! -f "${SELFDIR}/Gemfile.lock" ]; then
+  cd ${SELFDIR} && bundle install
+fi
+
 cd ${SELFDIR} && bundle exec cucumber
