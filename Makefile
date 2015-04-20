@@ -4,6 +4,9 @@ output = 'https://raw.githubusercontent.com/bioboxes/validator-short-read-assemb
 
 all: dist/short-read-validator.tar.gz
 
+test:
+	IMAGE=bioboxes/velvet ./build/validate
+
 dist/short-read-validator.tar.gz: build/reads.fq.gz build/schema/output.yaml build/schema/input.yaml
 	mkdir -p $(dir $@)
 	tar -czf $@ $(dir $<)
