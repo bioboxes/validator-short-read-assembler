@@ -1,6 +1,15 @@
 image = validator-test-image
 dist  = dist/short-read-validator.tar.gz
 
+##############################
+#
+# Push the distributable
+#
+##############################
+
+publish: ./plumbing/push-to-s3 VERSION $(dist)
+	bundle exec $^
+
 test: $(dist)
 	IMAGE=$(image) TASK=default ./build/validate
 
@@ -34,7 +43,10 @@ build: $(shell find src)
 #
 ##############################
 
-bootstrap: image
+bootstrap: image Gemfile.lock
+
+Gemfile.lock: Gemfile
+	bundle install
 
 image:
 	git clone git@github.com:bioboxes/velvet.git $@
