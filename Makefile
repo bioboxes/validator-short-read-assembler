@@ -23,4 +23,4 @@ build: $(shell find src)
 	touch $@
 
 clean:
-	rm -rf build
+	rm -rf build dist
