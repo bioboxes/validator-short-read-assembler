@@ -19,4 +19,5 @@ deployment:
     branch: master
     owner: bioboxes
     commands:
+      - ./script/publish
       - ./plumbing/rebuild-website
