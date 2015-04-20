@@ -1,7 +1,8 @@
-test:
-	IMAGE=$(image) TASK=default ./build/validate
-
 image = validator-test-image
+dist  = dist/short-read-validator.tar.gz
+
+test: $(dist)
+	IMAGE=$(image) TASK=default ./build/validate
 
 ##############################
 #
@@ -9,7 +10,7 @@ image = validator-test-image
 #
 ##############################
 
-dist/short-read-validator.tar.gz: build/reads.fq.gz build/schema/output.yaml build/schema/input.yaml
+$(dist): build/reads.fq.gz build/schema/output.yaml build/schema/input.yaml
 	mkdir -p $(dir $@)
 	tar -czf $@ $(dir $<)
 
