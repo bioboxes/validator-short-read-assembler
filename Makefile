@@ -1,50 +1,10 @@
-ci_test: Gemfile.lock
-	IMAGE=velvet TASK=default bundle exec cucumber
+reads = 'https://www.dropbox.com/s/uxgn6cqngctqv74/reads.fq.gz?dl=1'
 
-Gemfile.lock: Gemfile
-	bundle install
+all: build/reads.fq.gz
 
-Gemfile:
-	mkdir -p $(dir $@)
-	docker export $(shell docker run --detach --entrypoint ls validator) \
-		| tar xvf - \
-		  --exclude='root/.gem' \
-		  --exclude='root/Gemfile.lock' \
-		  --exclude='root/Makefile' \
-		  --strip-components 1 \
-		  root
+build/reads.fq.gz:
+	wget $(reads) --quiet --output-document $@
 
-test: .image velvet
-	docker run \
-		--privileged \
-		--rm \
-		--env IMAGE=velvet \
-		--env TASK=default \
-		--volume $(shell pwd)/velvet:/build \
-		validator
-
-ssh: .image
-	docker run \
-		--privileged \
-		--interactive \
-		--tty \
-		--rm \
-		validator \
-		bash
-
-build:     .image
-bootstrap: velvet .base
-
-.image: Dockerfile $(shell find mount)
-	docker build -t validator .
+build: $(shell find src)
+	cp -R src $@
 	touch $@
-
-.base: Dockerfile
-	docker pull $(shell head -n 1 $^ | cut -f 2 -d ' ')
-	touch $@
-
-velvet:
-	git clone git@github.com:bioboxes/velvet.git $@
-	docker build -t velvet $@
-
-.PHONY: test ssh bootstrap
