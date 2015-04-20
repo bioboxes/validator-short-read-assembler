@@ -12,7 +12,7 @@ publish: ./plumbing/push-to-s3 VERSION $(dist)
 	bundle exec $^
 
 test: $(dist)
-	IMAGE=$(image) TASK=default ./$(build)/validate
+	./$(build)/validate $(image) default
 
 ##############################
 #

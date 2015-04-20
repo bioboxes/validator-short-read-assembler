@@ -9,4 +9,4 @@ if [ ! -f "${SELFDIR}/Gemfile.lock" ]; then
   cd ${SELFDIR} && bundle install
 fi
 
-cd ${SELFDIR} && bundle exec cucumber
+cd ${SELFDIR} && IMAGE=$1 TASK=$2 bundle exec cucumber
