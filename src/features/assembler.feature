@@ -149,7 +149,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
   Scenario: Run assembler with basic input
     Given a directory named "output"
       And a directory named "input"
-      And I successfully run `cp ../../input/reads.fq.gz input`
+      And I successfully run `cp ../../reads.fq.gz input`
       And a file named "input/biobox.yaml" with:
       """
       ---
