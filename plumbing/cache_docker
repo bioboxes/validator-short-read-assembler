@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o xtrace
+
+SRC=$1
+TAG=$2
+CACHE="vendor/docker/image.tar"
+
+if [[ -e ${CACHE} ]]; then
+  docker load -i ${CACHE}
+else
+  mkdir -p $(dirname ${CACHE})
+fi
+
+docker build --tag=${TAG} ${SRC}
+docker save ${TAG} > ${CACHE}
