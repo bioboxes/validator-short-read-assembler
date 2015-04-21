@@ -8,6 +8,8 @@ build = validate-short-read-assembler
 #
 ##############################
 
+all: test
+
 publish: ./plumbing/push-to-s3 VERSION $(dist)
 	bundle exec $^
 
@@ -20,9 +22,12 @@ test: $(dist)
 #
 ##############################
 
-$(dist): $(build)/reads.fq.gz $(build)/schema/output.yaml $(build)/schema/input.yaml
+$(dist): $(build)/reads.fq.gz $(build)/schema/output.yaml $(build)/schema/input.yaml $(build)/README.md
 	mkdir -p $(dir $@)
 	tar -czf $@ $(dir $<)
+
+$(build)/README.md: doc/short-read-assembler-validator.md
+	cp $< $@
 
 $(build)/schema/output.yaml: $(build)
 	wget $(output) --quiet --output-document $@
