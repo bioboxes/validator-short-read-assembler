@@ -2,6 +2,8 @@ image = validator-test-image
 dist  = dist/short-read-validator.tar.gz
 build = validate-short-read-assembler
 
+.PHONY: build test bootstrap
+
 ##############################
 #
 # Push the distributable
@@ -16,15 +18,19 @@ publish: ./plumbing/push-to-s3 VERSION $(dist)
 test: $(dist)
 	./$(build)/validate $(image) default
 
+$(dist): $(build)/reads.fq.gz $(build)/schema/output.yaml $(build)/schema/input.yaml $(build)/
+	mkdir -p $(dir $@)
+	tar -czf $@ $(dir $<)
+
 ##############################
 #
 # Build the distributable
 #
 ##############################
 
-$(dist): $(build)/reads.fq.gz $(build)/schema/output.yaml $(build)/schema/input.yaml $(build)/README.md
-	mkdir -p $(dir $@)
-	tar -czf $@ $(dir $<)
+objects = reads.fq.gz schema/output.yaml schema/input.yaml README.md
+
+build: $(addprefix $(build)/,$(objects))
 
 $(build)/README.md: doc/short-read-assembler-validator.md
 	cp $< $@
