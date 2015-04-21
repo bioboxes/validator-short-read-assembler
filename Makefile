@@ -4,9 +4,12 @@ build = validate-short-read-assembler
 
 .PHONY: build test bootstrap
 
+files   = reads.fq.gz schema/output.yaml schema/input.yaml README.md
+objects = $(addprefix $(build)/,$(files))
+
 ##############################
 #
-# Push the distributable
+# Test and push the package
 #
 ##############################
 
@@ -16,9 +19,11 @@ publish: ./plumbing/push-to-s3 VERSION $(dist)
 	bundle exec $^
 
 test: $(dist)
-	./$(build)/validate $(image) default
+	mkdir -p $@
+	tar -xzf $< -C $@ --strip-components 1
+	./$@/validate $(image) default
 
-$(dist): $(build)/reads.fq.gz $(build)/schema/output.yaml $(build)/schema/input.yaml $(build)/
+$(dist): $(objects)
 	mkdir -p $(dir $@)
 	tar -czf $@ $(dir $<)
 
@@ -28,9 +33,7 @@ $(dist): $(build)/reads.fq.gz $(build)/schema/output.yaml $(build)/schema/input.
 #
 ##############################
 
-objects = reads.fq.gz schema/output.yaml schema/input.yaml README.md
-
-build: $(addprefix $(build)/,$(objects))
+build: $(objects)
 
 $(build)/README.md: doc/short-read-assembler-validator.md
 	cp $< $@
