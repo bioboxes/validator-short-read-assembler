@@ -5,7 +5,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     When I run the bash command:
       """
       docker run \
-        --rm \
         --volume="$(pwd)/input:/bbx/input" \
         ${IMAGE} \
         ${TASK}
@@ -25,7 +24,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     When I run the bash command:
       """
       docker run \
-        --rm \
         --volume="$(pwd)/input:/bbx/input" \
         ${IMAGE} \
         ${TASK}
@@ -69,7 +67,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     When I run the bash command:
       """
       docker run \
-        --rm \
         --env="TASK=default" \
         --volume="$(pwd)/input:/bbx/input:ro" \
         ${IMAGE} \
@@ -95,7 +92,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     When I run the bash command:
       """
       docker run \
-        --rm \
         --env="TASK=default" \
         --volume="$(pwd)/input:/bbx/input:ro" \
         ${IMAGE} ${TASK}
@@ -115,7 +111,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     When I run the bash command:
       """
       docker run \
-        --rm \
         --env="TASK=default" \
         --volume="$(pwd)/input:/bbx/input" \
         ${IMAGE} ${TASK}
@@ -141,7 +136,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     When I run the bash command:
       """
       docker run \
-        --rm \
         --env="TASK=default" \
         --volume="$(pwd)/input:/bbx/input:ro" \
         ${IMAGE} ${TASK}
@@ -172,7 +166,6 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     When I run the bash command:
       """
       docker run \
-        --rm \
         --volume="$(pwd)/input:/bbx/input:ro" \
         --volume="$(pwd)/output:/bbx/output:rw" \
         ${IMAGE} ${TASK}
