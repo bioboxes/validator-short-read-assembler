@@ -25,7 +25,7 @@ test: $(dist)
 
 $(dist): $(objects)
 	mkdir -p $(dir $@)
-	tar -czf $@ $(dir $<)
+	tar -czf $@ --exclude '$(build)/tmp' --exclude 'Gemfile.lock' $(dir $<)
 
 ##############################
 #
