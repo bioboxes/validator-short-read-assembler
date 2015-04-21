@@ -21,6 +21,8 @@ publish: ./plumbing/push-to-s3 VERSION $(dist)
 test: $(dist)
 	mkdir -p $@
 	tar -xzf $< -C $@ --strip-components 1
+	bundle exec kramdown $@/README.md > $@/README.html
+	bundle exec htmlproof $@/README.html
 	./$@/validate $(image) default
 
 $(dist): $(objects)

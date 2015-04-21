@@ -37,5 +37,5 @@ behaviour. The validator then ensures the container gives the expected response
 to each. These scenarios [include missing FASTQ files, bad input data, and all
 the correct data to produce an assembly][scenarios].
 
-[scenarios]: https://github.com/bioboxes/validator-short-read-assembler/blob/master/mount/features/assembler.feature
+[scenarios]: https://github.com/bioboxes/validator-short-read-assembler/blob/master/src/features/assembler.feature
 
