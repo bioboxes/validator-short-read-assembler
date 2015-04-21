@@ -61,7 +61,7 @@ $(build): $(shell find src)
 bootstrap: image Gemfile.lock
 
 Gemfile.lock: Gemfile
-	bundle install
+	bundle install --path vendor/bundle
 
 image:
 	git clone git@github.com:bioboxes/velvet.git $@

@@ -3,3 +3,4 @@ test
 dist
 image
 Gemfile.lock
+vendor
