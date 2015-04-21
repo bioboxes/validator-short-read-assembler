@@ -1,7 +1,5 @@
 #!/bin/bash
 
-if [ -n "$CI" ]; then
-  make ci_test
-else
-  make test
-fi
+set -o errexit
+
+make test

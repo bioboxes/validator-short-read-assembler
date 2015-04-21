@@ -1,5 +1,6 @@
-.image
-.base
-mount/input
-velvet
-tmp
+validate-short-read-assembler*
+test
+dist
+image
+Gemfile.lock
+vendor

@@ -1,12 +1,14 @@
 machine:
   services:
     - docker
+  ruby:
+    version: 2.2.0
 
 dependencies:
   cache_directories:
+    - "vendor/bundle"
     - "vendor/docker"
   override:
-    - ./plumbing/cache_docker
     - ./script/bootstrap
 
 test:
@@ -19,4 +21,5 @@ deployment:
     branch: master
     owner: bioboxes
     commands:
+      - ./script/publish
       - ./plumbing/rebuild-website

@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+require 'fog'
+require 'colorize'
+
+BASE   = "validate-short-read-assembler"
+BUCKET = "bioboxes-tools"
+FILE   = "validate-short-read-assembler.tar.gz"
+
+def s3_location(version)
+  File.join(BASE, version, FILE)
+end
+
+file  = ARGV.last
+patch = File.read(ARGV.first)
+minor = (patch.split('.')[0..1] << 'x').join('.')
+major = (patch.split('.')[0..0] << 'x' << 'y').join('.')
+
+connection = Fog::Storage.new({
+  :provider                 => 'AWS',
+  :region                   => 'us-west-1',
+  :aws_access_key_id        => ENV["AWS_ACCESS_KEY"],
+  :aws_secret_access_key    => ENV["AWS_SECRET_KEY"]
+})
+
+directory = connection.directories.get(BUCKET)
+exists = directory.files.head(s3_location(patch))
+
+if exists
+  STDERR.puts "Skipping deployment this version already exists: #{patch}".colorize(:red)
+else
+  [patch, minor, major].each do |version|
+    directory.files.create(key: s3_location(version), body: File.open(file), public: true)
+    STDOUT.puts "Successfully released #{version}".colorize(:green)
+  end
+end
