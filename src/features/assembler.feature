@@ -12,8 +12,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
      And the stderr should contain:
       """
-      Value None for field '<obj>' is not of type object
-
+      None is not of type 'object'\n
       """
 
   Scenario: A garbled biobox.yaml file.
@@ -50,8 +49,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
      And the stderr should contain:
       """
-      Required field 'version' is missing
-
+      'version' is a required property\n
       """
 
   Scenario: An biobox.yaml with a missing patch version number.
@@ -75,8 +73,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
      And the stderr should contain:
       """
-      Value '0.9' for field '<obj>.version' does not match regular expression '^0.9.\d+$'
-
+      '0.9' does not match '^0.9.\\d+$'\n
       """
 
   Scenario: An biobox.yaml with a wrong version number.
@@ -99,8 +96,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
      And the stderr should contain:
       """
-      Value '0.8.0' for field '<obj>.version' does not match regular expression '^0.9.\d+$'
-
+      '0.8.0' does not match '^0.9.\\d+$'\n
       """
 
   Scenario: An biobox.yaml with a missing arguments field.
@@ -118,8 +114,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
      And the stderr should contain:
       """
-      Required field 'arguments' is missing
-
+      'arguments' is a required property\n
       """
 
   Scenario: An biobox.yaml with an additional unknown field
@@ -143,7 +138,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
      And the stderr should contain:
       """
-      contains additional property 'unknown' not defined by 'properties' or 'patternProperties'
+      Additional properties are not allowed ('unknown' was unexpected)\n
       """
 
   Scenario: Run assembler with basic input
