@@ -67,7 +67,7 @@ Gemfile.lock: Gemfile
 
 image:
 	git clone git@github.com:bioboxes/velvet.git $@
-	./plumbing/cache_docker $@ $(image)
+	docker build -t $(image) $@
 
 clean:
 	rm -rf $(build) dist
