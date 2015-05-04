@@ -4,3 +4,4 @@ dist
 image
 Gemfile.lock
 vendor
+.bundle
