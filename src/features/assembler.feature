@@ -117,7 +117,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
       'arguments' is a required property\n
       """
 
-  Scenario: An biobox.yaml with an additional unknown field
+  Scenario Outline: An biobox.yaml with an additional unknown field
     Given a file named "input/biobox.yaml" with:
       """
       version: "0.9.0"
@@ -126,7 +126,7 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
           - id: "pe"
             value: "/reads.fastq.gz"
             type: paired
-      unknown: {}
+      <field>: {}
       """
     When I run the bash command:
       """
@@ -138,8 +138,14 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     Then the exit status should be 1
      And the stderr should contain:
       """
-      Additional properties are not allowed ('unknown' was unexpected)\n
+      Additional properties are not allowed ('<field>' was unexpected)\n
       """
+
+    Examples:
+      | field         |
+      | unknown       |
+      | invalid_fastq |
+
 
   Scenario: Run assembler with basic input
     Given a directory named "output"
