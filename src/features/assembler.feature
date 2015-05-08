@@ -172,4 +172,4 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
         ${IMAGE} ${TASK}
       """
     Then the exit status should be 0
-     And a file named "output/bbx/biobox.yaml" should exist
+     And a file named "output/biobox.yaml" should exist
