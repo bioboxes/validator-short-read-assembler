@@ -15,8 +15,8 @@ using yours. This is because all bioboxes interface are the same which allows
 for simple swapping and replacement of bioformatics tools.
 
 ~~~ bash 
-# Fetch the latest 0.3.x release of the validator
-wget https://s3-us-west-1.amazonaws.com/bioboxes-tools/validate-short-read-assembler/0.3.x/validate-short-read-assembler.tar.gz
+# Fetch the latest 0.4.x release of the validator
+wget https://s3-us-west-1.amazonaws.com/bioboxes-tools/validate-short-read-assembler/0.4.x/validate-short-read-assembler.tar.gz
 tar xzf validate-short-read-assembler.tar.gz
 
 ./validate-short-read-assembler/validate bioboxes/velvet default
