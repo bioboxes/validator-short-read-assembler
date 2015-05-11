@@ -181,21 +181,21 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
     And I successfully run `cp ../../reads.fq.gz input`
     And a file named "input/biobox.yaml" with:
     """
-      ---
-      version: 0.9.0
-      arguments:
-        - fastq:
-          - id: "pe"
-            value: "/bbx/input/reads.fq.gz"
-            type: single
-        - fragment_size:
-          - id: "pe"
-            value: 123
-      """
+    ---
+    version: 0.9.0
+    arguments:
+      - fastq:
+        - id: "pe"
+          value: "/bbx/input/reads.fq.gz"
+          type: single
+      - fragment_size:
+        - id: "pe"
+          value: 123
+    """
     When I run the bash command:
     """
       docker run \
-        --volume="$(pwd)/metadata:/bbx/metadata:rw"
+        --volume="$(pwd)/metadata:/bbx/metadata:rw" \
         --volume="$(pwd)/input:/bbx/input:ro" \
         --volume="$(pwd)/output:/bbx/output:rw" \
         ${IMAGE} ${TASK}
