@@ -173,3 +173,32 @@ Feature: Ensuring a short read assembler matches the bioboxes specification
       """
     Then the exit status should be 0
      And a file named "output/biobox.yaml" should exist
+
+  Scenario: Check if output log is produced.
+    Given a directory named "output"
+    And a directory named "input"
+    And a directory named "metadata"
+    And I successfully run `cp ../../reads.fq.gz input`
+    And a file named "input/biobox.yaml" with:
+    """
+      ---
+      version: 0.9.0
+      arguments:
+        - fastq:
+          - id: "pe"
+            value: "/bbx/input/reads.fq.gz"
+            type: single
+        - fragment_size:
+          - id: "pe"
+            value: 123
+      """
+    When I run the bash command:
+    """
+      docker run \
+        --volume="$(pwd)/metadata:/bbx/metadata:rw"
+        --volume="$(pwd)/input:/bbx/input:ro" \
+        --volume="$(pwd)/output:/bbx/output:rw" \
+        ${IMAGE} ${TASK}
+      """
+    Then the exit status should be 0
+    And a file named "metadata/log.txt" should exist
